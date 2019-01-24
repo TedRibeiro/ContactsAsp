@@ -1,0 +1,42 @@
+﻿@model ContactsAspMvc.Models.Phone
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Phone</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Contact.ContactName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Contact.ContactName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneType.PhoneTypeName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhoneType.PhoneTypeName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.PhoneId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

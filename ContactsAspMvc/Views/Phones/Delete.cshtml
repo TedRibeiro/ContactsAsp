@@ -1,0 +1,48 @@
+﻿@model ContactsAspMvc.Models.Phone
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Phone</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Contact.ContactName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Contact.ContactName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneType.PhoneTypeName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhoneType.PhoneTypeName)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

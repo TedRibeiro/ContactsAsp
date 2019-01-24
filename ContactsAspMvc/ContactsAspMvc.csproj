@@ -151,7 +151,9 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ContactsController.cs" />
+    <Compile Include="Controllers\EmailsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PhonesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -246,6 +248,16 @@
     <Content Include="Views\Contacts\Details.cshtml" />
     <Content Include="Views\Contacts\Edit.cshtml" />
     <Content Include="Views\Contacts\Index.cshtml" />
+    <Content Include="Views\Phones\Create.cshtml" />
+    <Content Include="Views\Phones\Delete.cshtml" />
+    <Content Include="Views\Phones\Details.cshtml" />
+    <Content Include="Views\Phones\Edit.cshtml" />
+    <Content Include="Views\Phones\Index.cshtml" />
+    <Content Include="Views\Emails\Create.cshtml" />
+    <Content Include="Views\Emails\Delete.cshtml" />
+    <Content Include="Views\Emails\Details.cshtml" />
+    <Content Include="Views\Emails\Edit.cshtml" />
+    <Content Include="Views\Emails\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
