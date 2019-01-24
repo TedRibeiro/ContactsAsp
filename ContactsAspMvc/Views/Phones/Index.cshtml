@@ -23,7 +23,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.ActionLink(item.PhoneNumber, "Edit", new { id = item.PhoneId })
+            @Html.ActionLink(item.PhoneNumber, "Edit", new { id = item.PhoneId, contactId = ViewBag.ContactId })
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.PhoneType.PhoneTypeName)

@@ -11,12 +11,19 @@ namespace ContactsAspMvc.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Email
     {
+        [Key]
         public int EmailId { get; set; }
         public int ContactId { get; set; }
+        [DataType(DataType.EmailAddress)]
+        [Required]
+        [Display(Name ="Endereço de E-mail")]
         public string EmailAddress { get; set; }
+        [Required]
+        [Display(Name = "Tipo de E-mail")]
         public int EmailTypeId { get; set; }
     
         public virtual Contact Contact { get; set; }

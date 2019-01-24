@@ -11,14 +11,22 @@ namespace ContactsAspMvc.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Phone
     {
+        [Key]
         public int PhoneId { get; set; }
+        [Phone]
+        [Display(Name = "Número"), Required]
         public string PhoneNumber { get; set; }
+        [DisplayAttribute(Name = "Tipo de Telefone")]
+        [DisplayName("Tipo de Telefone")]
+        [DataType(DataType.PhoneNumber), Required]
         public int PhoneTypeId { get; set; }
         public int ContactId { get; set; }
-    
+
         public virtual Contact Contact { get; set; }
         public virtual PhoneType PhoneType { get; set; }
     }

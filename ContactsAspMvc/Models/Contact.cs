@@ -11,7 +11,8 @@ namespace ContactsAspMvc.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Contact
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -20,13 +21,21 @@ namespace ContactsAspMvc.Models
             this.Emails = new HashSet<Email>();
             this.Phones = new HashSet<Phone>();
         }
-    
+   
+        [Key]
         public int ContactId { get; set; }
+        [Display(Name = "Nome Completo"), Required]
+        [StringLength(255, MinimumLength = 3)]
         public string ContactName { get; set; }
+        [Display(Name = "Data de Nascimento"), Required]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public System.DateTime ContactDateOfBirth { get; set; }
-    
+
+
+        [Display(Name = "E-Mail")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Email> Emails { get; set; }
+        [Display(Name = "Telefone")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Phone> Phones { get; set; }
     }

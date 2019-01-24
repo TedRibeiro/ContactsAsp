@@ -15,10 +15,12 @@ namespace ContactsAspMvc.Controllers
         private ContactsEntities db = new ContactsEntities();
 
         // GET: Phones
-        public ActionResult Index()
+        [ChildActionOnly]
+        public ActionResult Index(int id)
         {
-            var phones = db.Phones.Include(p => p.Contact).Include(p => p.PhoneType);
-            return View(phones.ToList());
+            ViewBag.ContactId = id;
+            var phones = db.Phones.Where(p => p.ContactId == id);
+            return PartialView("Index", phones.ToList());
         }
 
         // GET: Phones/Details/5
@@ -37,11 +39,14 @@ namespace ContactsAspMvc.Controllers
         }
 
         // GET: Phones/Create
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
-            ViewBag.ContactId = new SelectList(db.Contacts, "ContactId", "ContactName");
+            Phone phone = new Phone();
+            phone.ContactId = id;
+            ViewBag.ContactId = id;
             ViewBag.PhoneTypeId = new SelectList(db.PhoneTypes, "PhoneTypeId", "PhoneTypeName");
-            return View();
+
+            return View("Create", phone);
         }
 
         // POST: Phones/Create
@@ -55,26 +60,27 @@ namespace ContactsAspMvc.Controllers
             {
                 db.Phones.Add(phone);
                 db.SaveChanges();
-                return RedirectToAction("Index");
             }
 
             ViewBag.ContactId = new SelectList(db.Contacts, "ContactId", "ContactName", phone.ContactId);
             ViewBag.PhoneTypeId = new SelectList(db.PhoneTypes, "PhoneTypeId", "PhoneTypeName", phone.PhoneTypeId);
-            return View(phone);
+            return View("Index", "Contacts");
         }
 
         // GET: Phones/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int? id, int contactId)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Phone phone = db.Phones.Find(id);
+            phone.ContactId = contactId;
             if (phone == null)
             {
                 return HttpNotFound();
             }
+
             ViewBag.ContactId = new SelectList(db.Contacts, "ContactId", "ContactName", phone.ContactId);
             ViewBag.PhoneTypeId = new SelectList(db.PhoneTypes, "PhoneTypeId", "PhoneTypeName", phone.PhoneTypeId);
             return View(phone);
@@ -91,7 +97,7 @@ namespace ContactsAspMvc.Controllers
             {
                 db.Entry(phone).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Contacts");
             }
             ViewBag.ContactId = new SelectList(db.Contacts, "ContactId", "ContactName", phone.ContactId);
             ViewBag.PhoneTypeId = new SelectList(db.PhoneTypes, "PhoneTypeId", "PhoneTypeName", phone.PhoneTypeId);
@@ -121,7 +127,7 @@ namespace ContactsAspMvc.Controllers
             Phone phone = db.Phones.Find(id);
             db.Phones.Remove(phone);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Contacts");
         }
 
         protected override void Dispose(bool disposing)

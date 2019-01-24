@@ -9,15 +9,22 @@
 <p>
     @Html.ActionLink("Adicionar Novo", "Create")
 </p>
+@using (Html.BeginForm("Index", "Contacts", FormMethod.Get))
+{
+    @Html.DropDownList("ContactName", new SelectList(ViewBag.Letter))
+    <input type="submit" value="Filtrar" />
+}
 <table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.ContactName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ContactDateOfBirth)
+            @Html.DisplayNameFor(model => model.Phones)
         </th>
-        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.Emails)
+        </th>
     </tr>
 
 @foreach (var item in Model) {
@@ -26,7 +33,18 @@
             @Html.ActionLink(item.ContactName, "Edit", new { id = item.ContactId })
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ContactDateOfBirth)
+            @{ 
+                var phone = item.Phones.FirstOrDefault();
+                var phoneNumber = phone != null ? string.Format("{0} ({1})", phone.PhoneNumber, phone.PhoneType.PhoneTypeName) : "--";
+                @Html.DisplayFor(modelItem => phoneNumber)
+            }
+        </td>
+        <td>
+            @{ 
+                var email = item.Emails.FirstOrDefault();
+                var emailAddress = email != null ? string.Format("{0} ({1})", email.EmailAddress, email.EmailType.EmailTypeName) : "--";
+                @Html.DisplayFor(modelItem => emailAddress)
+            }
         </td>
         <td>
             

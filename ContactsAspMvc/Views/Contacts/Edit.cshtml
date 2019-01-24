@@ -3,6 +3,9 @@
 @{
     ViewBag.Title = "Edit";
 }
+<head>
+    <meta charset="UTF-8">
+</head>
 
 <h2>Editar Contato</h2>
 
@@ -12,8 +15,6 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Contact</h4>
-        <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.ContactId)
 
@@ -46,6 +47,19 @@
         @{ Html.RenderAction("Index", "Phones", new { id = Model.ContactId }); }
     </div>
 </div>
+
+<div class="row">
+    <div class="col-md-offset-2 col-md-10">
+        @{ Html.RenderAction("Index", "Emails", new { id = Model.ContactId }); }
+    </div>
+</div>
+
+@if (ViewBag.Msg != null)
+{
+    <script type="text/javascript" charset="utf-8">
+        alert('@ViewBag.Msg');
+    </script>
+}
 
 <div>
     @Html.ActionLink("Back to List", "Index")

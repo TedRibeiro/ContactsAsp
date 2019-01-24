@@ -15,10 +15,12 @@ namespace ContactsAspMvc.Controllers
         private ContactsEntities db = new ContactsEntities();
 
         // GET: Emails
-        public ActionResult Index()
+        [ChildActionOnly]
+        public ActionResult Index(int id)
         {
-            var emails = db.Emails.Include(e => e.Contact).Include(e => e.EmailType);
-            return View(emails.ToList());
+            ViewBag.ContactId = id;
+            var emails = db.Emails.Where(e => e.ContactId == id);
+            return PartialView("Index", emails.ToList());
         }
 
         // GET: Emails/Details/5
@@ -37,11 +39,13 @@ namespace ContactsAspMvc.Controllers
         }
 
         // GET: Emails/Create
-        public ActionResult Create()
+        public ActionResult Create(int contactId)
         {
-            ViewBag.ContactId = new SelectList(db.Contacts, "ContactId", "ContactName");
+            Email email = new Email();
+            email.ContactId = contactId;
+            ViewBag.ContactId = contactId;
             ViewBag.EmailTypeId = new SelectList(db.EmailTypes, "EmailTypeId", "EmailTypeName");
-            return View();
+            return View(email);
         }
 
         // POST: Emails/Create
@@ -51,11 +55,11 @@ namespace ContactsAspMvc.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "EmailId,ContactId,EmailAddress,EmailTypeId")] Email email)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && VerifyEmailType(email))
             {
                 db.Emails.Add(email);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Contacts");
             }
 
             ViewBag.ContactId = new SelectList(db.Contacts, "ContactId", "ContactName", email.ContactId);
@@ -64,7 +68,7 @@ namespace ContactsAspMvc.Controllers
         }
 
         // GET: Emails/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int? id, int contactId)
         {
             if (id == null)
             {
@@ -75,6 +79,7 @@ namespace ContactsAspMvc.Controllers
             {
                 return HttpNotFound();
             }
+            email.ContactId = contactId;
             ViewBag.ContactId = new SelectList(db.Contacts, "ContactId", "ContactName", email.ContactId);
             ViewBag.EmailTypeId = new SelectList(db.EmailTypes, "EmailTypeId", "EmailTypeName", email.EmailTypeId);
             return View(email);
@@ -87,11 +92,11 @@ namespace ContactsAspMvc.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "EmailId,ContactId,EmailAddress,EmailTypeId")] Email email)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && VerifyEmailType(email))
             {
                 db.Entry(email).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Contacts");
             }
             ViewBag.ContactId = new SelectList(db.Contacts, "ContactId", "ContactName", email.ContactId);
             ViewBag.EmailTypeId = new SelectList(db.EmailTypes, "EmailTypeId", "EmailTypeName", email.EmailTypeId);
@@ -121,7 +126,7 @@ namespace ContactsAspMvc.Controllers
             Email email = db.Emails.Find(id);
             db.Emails.Remove(email);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Contacts");
         }
 
         protected override void Dispose(bool disposing)
@@ -131,6 +136,26 @@ namespace ContactsAspMvc.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public bool VerifyEmailType(Email email)
+        {
+            if (email.EmailId == 0)
+            {
+                if (db.Emails.ToList().Find(e => e.EmailTypeId == email.EmailTypeId && e.ContactId == email.ContactId) == null)
+                    return true;
+            }
+            else
+            {
+                if (db.Emails.ToList().Find(e => 
+                e.EmailTypeId == email.EmailTypeId 
+                && e.ContactId == email.ContactId
+                && e.EmailId != email.EmailId) == null)
+                    return true;
+            }
+
+            ViewBag.Msg = "Já existe um email do mesmo tipo cadastrado para o usuário.";
+            return false;
         }
     }
 }

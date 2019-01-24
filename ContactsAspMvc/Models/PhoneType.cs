@@ -11,7 +11,9 @@ namespace ContactsAspMvc.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+
     public partial class PhoneType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,8 +21,9 @@ namespace ContactsAspMvc.Models
         {
             this.Phones = new HashSet<Phone>();
         }
-    
+        [DisplayName("Tipo de Telefone")]
         public int PhoneTypeId { get; set; }
+        [DisplayName("Tipo de Telefone")]
         public string PhoneTypeName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

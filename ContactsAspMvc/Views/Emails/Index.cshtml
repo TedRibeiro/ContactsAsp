@@ -4,18 +4,15 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>E-mails</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Adicionar", "Create", new { contactId = ViewBag.ContactId })
 </p>
 <table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.EmailAddress)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Contact.ContactName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.EmailType.EmailTypeName)
@@ -26,18 +23,13 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.EmailAddress)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Contact.ContactName)
+            @Html.ActionLink(item.EmailAddress, "Edit", new { id = item.EmailId, contactId = ViewBag.ContactId })
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.EmailType.EmailTypeName)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.EmailId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.EmailId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.EmailId })
+            @Html.ActionLink("Delete", "Delete", new { id = item.EmailId })
         </td>
     </tr>
 }

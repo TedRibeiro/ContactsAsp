@@ -11,7 +11,8 @@ namespace ContactsAspMvc.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class EmailType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,8 +20,10 @@ namespace ContactsAspMvc.Models
         {
             this.Emails = new HashSet<Email>();
         }
-    
+        [Key]
+        [Display(Name = "Tipo de E-mail")]
         public int EmailTypeId { get; set; }
+        [Display(Name = "Tipo de E-mail")]
         public string EmailTypeName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

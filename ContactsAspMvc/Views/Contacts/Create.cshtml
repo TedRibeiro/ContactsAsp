@@ -39,6 +39,13 @@
     </div>
 }
 
+@if (ViewBag.Msg != null)
+{
+    <script type="text/javascript" src="*.js" charset="utf-8">
+        alert('@ViewBag.Msg');
+    </script>
+}
+
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
