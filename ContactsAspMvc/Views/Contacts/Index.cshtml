@@ -4,10 +4,10 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Contatos</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Adicionar Novo", "Create")
 </p>
 <table class="table">
     <tr>
@@ -23,14 +23,13 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.ContactName)
+            @Html.ActionLink(item.ContactName, "Edit", new { id = item.ContactId })
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ContactDateOfBirth)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ContactId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ContactId }) |
+            
             @Html.ActionLink("Delete", "Delete", new { id=item.ContactId })
         </td>
     </tr>
